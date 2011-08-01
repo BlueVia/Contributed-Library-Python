@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>bluevia.BlueVia</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="bluevia-module.html">Module&nbsp;bluevia</a> ::
+        Class&nbsp;BlueVia
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="bluevia.BlueVia-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class BlueVia</h1><p class="nomargin-top"><span class="codelink"><a href="bluevia-pysrc.html#BlueVia">source&nbsp;code</a></span></p>
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="bluevia.BlueViaAds-class.html">BlueViaAds</a></li><li>, <a href="bluevia.BlueViaInboundMMS-class.html">BlueViaInboundMMS</a></li><li>, <a href="bluevia.BlueViaInboundSMS-class.html">BlueViaInboundSMS</a></li><li>, <a href="bluevia.BlueViaLocation-class.html">BlueViaLocation</a></li><li>, <a href="bluevia.BlueViaOauth-class.html">BlueViaOauth</a></li><li>, <a href="bluevia.BlueViaOutboundMms-class.html">BlueViaOutboundMms</a></li><li>, <a href="bluevia.BlueViaOutboundSms-class.html">BlueViaOutboundSms</a></li><li>, <a href="bluevia.BlueViaUserContext-class.html">BlueViaUserContext</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>The BlueVia base class. All other BlueVia classes are inherited from 
+  this class BlueVia.</p>
+  <p>Mainly Stores consumer and access_token, provides the generic 
+  _signAndSend(...) a debug() method</p>
+  <h1 class="heading">HOWTO USE</h1>
+    <h2 class="heading">oAuth routines</h2>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>o = bluevia.BlueViaOauth(<span class="py-string">'&lt;secret&gt;'</span>, <span class="py-string">'&lt;key&gt;'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>o.fetch_request_token()</pre>
+      <p>Returns the oAuth URL for user authorization</p>
+      <p>Successful authorization returns an oAuth verifier</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>o.fetch_access_token(<span class="py-string">&quot;&lt;verifier&gt;&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>o.saveAccessToken(<span class="py-string">&quot;newtok.pkl&quot;</span>)</pre>
+    <h2 class="heading">SMS outbound routines</h2>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = bluevia.BlueViaOutboundSms()
+<span class="py-prompt">&gt;&gt;&gt; </span>s.loadAccessToken(<span class="py-string">&quot;newtok.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>s.sendSMS([<span class="py-string">&quot;491795489685&quot;</span>], <span class="py-string">&quot;Hallo Welt&quot;</span>)</pre>
+      <p>Returns the delivery URL</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s.deliveryStatus(<span class="py-string">&quot;&lt;deliveryURL&gt;&quot;</span>)</pre>
+    <h2 class="heading">SMS receive routines</h2>
+      <p>For Sandbox testing use an app that can both send SMS and receive 
+      SMS with keyword &quot;BlueViaRocks&quot;</p>
+      <p>1) Send a fake SMS</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>s = bluevia.BlueViaOutboundSms()
+<span class="py-prompt">&gt;&gt;&gt; </span>s.loadAccessToken(<span class="py-string">&quot;smsmo_hardcoded.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>s.sendSMS([<span class="py-string">&quot;445480605&quot;</span>], <span class="py-string">&quot;SANDBlueViaRocks so much!&quot;</span>)</pre>
+      <p>2) Receive SMS with App</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>i = bluevia.BlueViaInboundSMS()
+<span class="py-prompt">&gt;&gt;&gt; </span>i.loadAccessToken(<span class="py-string">&quot;smsmo_hardcoded.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>i.receiveSMS(<span class="py-string">&quot;445480605&quot;</span></pre>
+      <p>For live testing use a mobile from the developer (e.g. the one 
+      owning the application)</p>
+      <p>1) Send  &quot;TESTBlueViaRocks so much live!&quot; to 
+      445480605</p>
+      <p>2) Retrieve from Test System</p>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>i = bluevia.BlueViaInboundSMS(<span class="py-string">&quot;&quot;</span>) <span class="py-comment"># set sandbox parameter to &quot;&quot; makes test calls</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>i.loadAccessToken(<span class="py-string">&quot;smsmo_hardcoded.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>i.receiveSMS(<span class="py-string">&quot;445480605&quot;</span>)</pre>
+    <h2 class="heading">Location routines</h2>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>l = bluevia.BlueViaLocation()
+<span class="py-prompt">&gt;&gt;&gt; </span>l.loadAccessToken(<span class="py-string">&quot;newtok.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>l.locateTerminal():</pre>
+    <h2 class="heading">User context routines</h2>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>u = bluevia.BlueViaUserContext()
+<span class="py-prompt">&gt;&gt;&gt; </span>u.loadAccessToken(<span class="py-string">&quot;newtok.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>u.getInfo():</pre>
+    <h2 class="heading">Advertising routines</h2>
+<pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>a = bluevia.BlueViaAds(<span class="py-string">&quot;&lt;adspace Id&gt;&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>a.loadAccessToken(<span class="py-string">&quot;newtok.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>a.getAd_3l(keywordList = [<span class="py-string">&quot;sport&quot;</span>])</pre>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueVia-class.html#_signAndSend" class="summary-sig-name" onclick="show_private();">_signAndSend</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">requestUrl</span>,
+        <span class="summary-sig-arg">method</span>,
+        <span class="summary-sig-arg">token</span>,
+        <span class="summary-sig-arg">parameters</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">body</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">extraHeaders</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">is_form_encoded</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Generic method to call an oAuth authorized API in BlueVia including 
+      oAuth signature.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueVia._signAndSend">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueVia-class.html#loadAccessToken" class="summary-sig-name">loadAccessToken</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">path</span>)</span><br />
+      Load Consumer Credentials and Access Token from disk (pickle file).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueVia.loadAccessToken">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueVia-class.html#setConsumer" class="summary-sig-name">setConsumer</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">consumer</span>)</span><br />
+      Set the Consumer credentials.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueVia.setConsumer">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueVia-class.html#setAccessToken" class="summary-sig-name">setAccessToken</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">access_token</span>)</span><br />
+      Set the Access Token.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueVia.setAccessToken">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="hasCredentials"></a><span class="summary-sig-name">hasCredentials</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Check availability of access token</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueVia.hasCredentials">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueVia-class.html#setDebug" class="summary-sig-name">setDebug</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">dbgFlag</span>)</span><br />
+      Set or unset the debug flag</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueVia.setDebug">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueVia-class.html#_debug" class="summary-sig-name" onclick="show_private();">_debug</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">requestUrl</span>,
+        <span class="summary-sig-arg">query</span>,
+        <span class="summary-sig-arg">headers</span>,
+        <span class="summary-sig-arg">body</span>,
+        <span class="summary-sig-arg">token</span>,
+        <span class="summary-sig-arg">req</span>)</span><br />
+      Prints aut anything relevant for oAuth debugging: URL, method, body, 
+      headers, signature base string, ...</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueVia._debug">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="access_token"></a><span class="summary-name">access_token</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="consumer"></a><span class="summary-name">consumer</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="realm"></a><span class="summary-name">realm</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="environment"></a><span class="summary-name">environment</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="version"></a><span class="summary-name">version</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="debugFlag"></a><span class="summary-name">debugFlag</span> = <code title="False">False</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="http"></a><span class="summary-name">http</span> = <code title="httplib2.Http()">httplib2.Http()</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="_signAndSend"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_signAndSend</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">requestUrl</span>,
+        <span class="sig-arg">method</span>,
+        <span class="sig-arg">token</span>,
+        <span class="sig-arg">parameters</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">body</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">extraHeaders</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">is_form_encoded</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueVia._signAndSend">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generic method to call an oAuth authorized API in BlueVia including 
+  oAuth signature.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>requestUrl</code></strong> - (string):       The BlueVia URL</li>
+        <li><strong class="pname"><code>method</code></strong> - (string):           HTTP method, &quot;GET&quot; or 
+          &quot;POST&quot;</li>
+        <li><strong class="pname"><code>token</code></strong> - (oauth.Token):       Usually the Access Token. During oAuth Dance
+          None or Request Token</li>
+        <li><strong class="pname"><code>parameters</code></strong> - (dict):         Necessary call paramters, e.g. version, alt. 
+          Default: None</li>
+        <li><strong class="pname"><code>body</code></strong> - (string):             Body of the HTTP call. Default: 
+          &quot;&quot;</li>
+        <li><strong class="pname"><code>extraHeaders</code></strong> - (dict):       Some calls need extra headers, e.g. 
+          {&quot;Content-Type&quot;:&quot;application/json&quot;}. Default:
+          None</li>
+        <li><strong class="pname"><code>is_form_encoded</code></strong> - (boolean): If True parameters are send as form encoded HTTP body.
+          DEFAUL: False</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>(tuple):                   (HTTP response, HTTP response data)</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="loadAccessToken"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">loadAccessToken</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">path</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueVia.loadAccessToken">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Load Consumer Credentials and Access Token from disk (pickle 
+  file).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>path</code></strong> - (string): Path to pickle file</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>(boolean):    True if successfully loaded</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Unencrypted storage. Use only for testing!
+      </p>
+</div></td></tr></table>
+</div>
+<a name="setConsumer"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setConsumer</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">consumer</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueVia.setConsumer">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the Consumer credentials.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>consumer</code></strong> - (oauth.Token): The consumer credentials as provided by getCosumer
+          in class BlueViaOauth</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setAccessToken"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setAccessToken</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">access_token</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueVia.setAccessToken">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set the Access Token.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>access_token</code></strong> - (oauth.Token): The oAuth access token as provided by 
+          getAccessToken in class BlueViaOauth</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="setDebug"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setDebug</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">dbgFlag</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueVia.setDebug">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set or unset the debug flag</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>dbgFlag</code></strong> - (boolean): If True debug information will be printed to stdout</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_debug"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_debug</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">requestUrl</span>,
+        <span class="sig-arg">query</span>,
+        <span class="sig-arg">headers</span>,
+        <span class="sig-arg">body</span>,
+        <span class="sig-arg">token</span>,
+        <span class="sig-arg">req</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueVia._debug">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Prints aut anything relevant for oAuth debugging: URL, method, body, 
+  headers, signature base string, ...</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Internal method
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Jul 31 13:28:46 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

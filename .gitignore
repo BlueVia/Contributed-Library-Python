@@ -1,0 +1,6 @@
+*.pkl
+.bzr
+*.pyc
+.bzrignore
+.DS_Store
+samples

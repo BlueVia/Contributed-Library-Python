@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>bluevia.BlueViaOauth</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="bluevia-module.html">Module&nbsp;bluevia</a> ::
+        Class&nbsp;BlueViaOauth
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="bluevia.BlueViaOauth-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class BlueViaOauth</h1><p class="nomargin-top"><span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+<a href="bluevia.BlueVia-class.html">BlueVia</a> --+
+          |
+         <strong class="uidshort">BlueViaOauth</strong>
+</pre>
+
+<hr />
+<p>This class provides the methods for the oAuth Dance. It supports Out 
+  Of Band authorization as defined in oAuth 1.0a</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaOauth-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">consumer_key</span>,
+        <span class="summary-sig-arg">consumer_secret</span>,
+        <span class="summary-sig-arg">realm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">BlueVia</code><code class="variable-quote">'</code></span>)</span><br />
+      Initialize the BlueViaOauth object</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaOauth-class.html#fetch_request_token" class="summary-sig-name">fetch_request_token</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">callback</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">oob</code><code class="variable-quote">'</code></span>)</span><br />
+      First call of the oAuth Dance.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.fetch_request_token">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaOauth-class.html#fetch_access_token" class="summary-sig-name">fetch_access_token</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">verifier</span>)</span><br />
+      The final step of the oAuth Dance.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.fetch_access_token">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaOauth-class.html#saveAccessToken" class="summary-sig-name">saveAccessToken</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">path</span>)</span><br />
+      Save the Access Token.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.saveAccessToken">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getConsumer"></a><span class="summary-sig-name">getConsumer</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Retrieve the Consumer Credentials</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.getConsumer">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getAccessToken"></a><span class="summary-sig-name">getAccessToken</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Retrieve the Access Token</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.getAccessToken">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="bluevia.BlueVia-class.html">BlueVia</a></code></b>:
+      <code><a href="bluevia.BlueVia-class.html#hasCredentials">hasCredentials</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#loadAccessToken">loadAccessToken</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#setAccessToken">setAccessToken</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#setConsumer">setConsumer</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#setDebug">setDebug</a></code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="bluevia.BlueVia-class.html">BlueVia</a></code></b> (private):
+      <code><a href="bluevia.BlueVia-class.html#_debug" onclick="show_private();">_debug</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#_signAndSend" onclick="show_private();">_signAndSend</a></code>
+      </p></div>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="bluevia.BlueVia-class.html">BlueVia</a></code></b>:
+      <code><a href="bluevia.BlueVia-class.html#access_token">access_token</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#consumer">consumer</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#debugFlag">debugFlag</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#environment">environment</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#http">http</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#realm">realm</a></code>,
+      <code><a href="bluevia.BlueVia-class.html#version">version</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">consumer_key</span>,
+        <span class="sig-arg">consumer_secret</span>,
+        <span class="sig-arg">realm</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">BlueVia</code><code class="variable-quote">'</code></span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Initialize the BlueViaOauth object</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>consumer_key</code></strong> - (string):     Key of the Consumer Credentials</li>
+        <li><strong class="pname"><code>consumer_secret</code></strong> - (string):  Secret of the Consumer Credentials</li>
+        <li><strong class="pname"><code>realm</code></strong> - (string):            Realm string. Default: &quot;BlueVia&quot;</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fetch_request_token"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fetch_request_token</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">callback</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">oob</code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.fetch_request_token">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>First call of the oAuth Dance. Provide the Consumer Credential and 
+  request the Request Token</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>callback</code></strong> - (string): The callback URL or &quot;oob&quot;. Default: 
+          &quot;oob&quot;</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>(tuple):           (HTTP status, authorization URL). HTTP status 
+          == &quot;200&quot; for success</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fetch_access_token"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fetch_access_token</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">verifier</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.fetch_access_token">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>The final step of the oAuth Dance. Exchange the Request Token with the
+  Access Token</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>verifier</code></strong> - (string): The oAuth verifier of the successful user authorization</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>(string):         HTTP status == &quot;200&quot; for success</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="saveAccessToken"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">saveAccessToken</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">path</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaOauth.saveAccessToken">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Save the Access Token.</p>
+  <p>Note: Unencrypted storage. Use only during development</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>path</code></strong> - (string): Path to file on disk (pickle file)</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Jul 31 13:28:46 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

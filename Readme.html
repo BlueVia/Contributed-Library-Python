@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="keywords" content="MultiMarkdown, Markdown, XML, XHTML, XSLT, PDF"/>
+	<link type="text/css" rel="stylesheet" href="css/print.css"/>
+	<link type="text/css" rel="stylesheet" href="css/doc-less.css"/>
+</head>
+<body>
+<p>Feel free to download and mess around with this app, it may or may not be updated regularly, when it is we will publicise on our twitter feed (@BlueVia)</p>
+
+<h2 id="getyourpythonenvironmentprepared">Get your Python environment prepared</h2>
+
+<p>There is little to do with python. The tutorial has been prepared with Python 2.6. Further on we need three additional python modules:</p>
+
+<ul>
+<li><a href="http://code.google.com/p/httplib2/">httplib2</a>: Makes life with http calls easier</li>
+<li><a href="https://github.com/simplegeo/python-oauth2">oauth2</a>: The actual oauth library</li>
+<li><a href="http://code.google.com/p/simplejson">simplejson</a>: Makes life with JSON easier</li>
+</ul>
+
+<p>The easiest way to get these is <em>easy_install</em> from python setup tools:</p>
+
+<pre><code>    easy_install httplib2
+    easy_install oauth2
+    easy_install simplejson
+</code></pre>
+
+<h2 id="sampleusageofallblueviapythonroutines">Sample usage of all BlueVia python routines</h2>
+
+<h3 id="somepersonalsettings">Some personal settings</h3>
+
+<pre><code>    myMobileNumber = &quot;44xxxxxxxxxx&quot;
+
+    myShortcode = &quot;445480605&quot; # UK
+    myAdSpaceId = &quot;xxxxx&quot;
+
+    # App with all API's ticked 
+    my3leggedConsumer = 'xxxxxxxxxxxxxxxx'
+    my3leggedSecret = 'xxxxxxxxxxxx'
+
+    # App with advertising only
+    my2leggedConsumer = 'xxxxxxxxxxxxxxxx'
+    my2leggedSecret = 'xxxxxxxxxxxx'
+</code></pre>
+
+<h3 id="oauthdance">oAuth Dance</h3>
+
+<pre><code>    import bluevia
+    o3 = bluevia.BlueViaOauth(my3leggedConsumer, my3leggedSecret)
+    o3.fetch_request_token()
+    # returns the authorization URL. Paste into browser.
+
+    # When finished copy verifier, e.g 135791
+    o3.fetch_access_token(&quot;135791&quot;)
+</code></pre>
+
+<h3 id="sendsmsandtrackdelivery">Send SMS and track delivery</h3>
+
+<pre><code>    s = bluevia.BlueViaOutboundSms()
+    s.loadAccessToken(&quot;token.pkl&quot;)
+    r = s.sendSMS([myMobileNumber], &quot;Hello BlueVia&quot;)
+    s.deliveryStatus(r[1])
+</code></pre>
+
+<p>Note: to use the real radio network call (this holds for all BlueVia calless below):</p>
+
+<pre><code>    s = bluevia.BlueViaOutboundSms(sandbox=&quot;&quot;)
+</code></pre>
+
+<h3 id="receivesmsfirstsendoneormoresmstothesandboxshortcode">Receive SMS (first send one or more SMS to the sandbox shortcode)</h3>
+
+<pre><code>    s.sendSMS([shortcode], &quot;SANDBWTUT01 BlueVia&quot;)
+
+    si = bluevia.BlueViaInboundSMS()
+    si.loadAccessToken(&quot;token.pkl&quot;)
+    si.receiveSMS(shortcode)
+</code></pre>
+
+<h3 id="sendmms">Send MMS</h3>
+
+<pre><code>    m = bluevia.BlueViaOutboundMms()
+    m.loadAccessToken(&quot;token.pkl&quot;)
+    m.sendMMS(myMobileNumber, &quot;Hello Multimedia BlueVia&quot;, \
+              [&quot;Message\n Number 1&quot;, &quot;Yet another\n Message&quot;], \
+              [&quot;samples/atextfile.txt&quot;, &quot;samples/image.jpg&quot;])
+</code></pre>
+
+<p>Receive MMS and retrieve the attachemnts (first send one or more MMS to the sandbox shortcode)</p>
+
+<pre><code>    m.sendMMS(myShortcode, &quot;SANDBWTUT01 BlueVia Multimedia&quot;, \
+              [&quot;Message\n Number 1&quot;, &quot;Yet another\n Message&quot;], \    
+              [&quot;samples/atextfile.txt&quot;, &quot;samples/image.jpg&quot;])
+
+    mi = bluevia.BlueViaInboundMMS()
+    mi.loadAccessToken(&quot;token.pkl&quot;)
+    r = mi.receiveMMS(myShortcode)
+    mid = r[1]['receivedMessages']['messageIdentifier']
+    mi.retrieveAttachments(myShortCode, mid)
+</code></pre>
+
+<h3 id="usercontextapi">User Context API</h3>
+
+<pre><code>    u = bluevia.BlueViaUserContext()
+    u.loadAccessToken(&quot;token.pkl&quot;)
+    u.getUserInfo()
+</code></pre>
+
+<h3 id="locationapi">Location API</h3>
+
+<pre><code>    l = bluevia.BlueViaLocation()
+    l.loadAccessToken(&quot;token.pkl&quot;)
+    l.locateTerminal()
+</code></pre>
+
+<h3 id="advertisingapi3leggedoauth">Advertising API (3 legged oAuth)</h3>
+
+<pre><code>    a = bluevia.BlueViaAds(myAdSpaceId)
+    a.loadAccessToken(&quot;token.pkl&quot;)
+    a.getAd_3l()
+</code></pre>
+
+<h3 id="advertisingapi2leggedoauth">Advertising API (2 legged oAuth)</h3>
+
+<pre><code>    o2 = bluevia.BlueViaOauth(my2leggedConsumer, my2leggedSecret)
+    o2.fetch_request_token()
+    o2.saveAccessToken(&quot;token_2.pkl&quot;) # saves Request Token only!
+
+    a = bluevia.BlueViaAds(myAdSpaceId)
+    a.loadAccessToken(&quot;token_2.pkl&quot;) # Request Token only!
+    a.getAd_2l(&quot;GB&quot;)
+</code></pre>
+</body>
+</html>
