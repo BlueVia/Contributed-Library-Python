@@ -130,8 +130,8 @@ class BlueVia():
     http = httplib2.Http()
     
 
-    def _signAndSend(self, requestUrl, method, token, parameters=None, body="", \
-                     extraHeaders=None, is_form_encoded = False):
+    def _signAndSend(self, requestUrl, method, token, parameters={}, body="", \
+                     extraHeaders={}, is_form_encoded = False):
         """
         Generic method to call an oAuth authorized API in BlueVia including oAuth signature.
         
@@ -144,32 +144,29 @@ class BlueVia():
         @param extraHeaders: (dict):       Some calls need extra headers, e.g. {"Content-Type":"application/json"}. Default: None
         @param is_form_encoded: (boolean): If True parameters are send as form encoded HTTP body. DEFAUL: False
         
-        @return: (tuple):                   (HTTP response, HTTP response data)
+        @return: (tuple):                  (HTTP response, HTTP response data)
         """
         
         req = oauth.Request.from_consumer_and_token(self.consumer, token, method, requestUrl, \
                                                     parameters, body, is_form_encoded)
         req.sign_request(oauth.SignatureMethod_HMAC_SHA1(), self.consumer, token)
-        
+
         headers = req.to_header(realm=self.realm)
         if extraHeaders:
             headers.update(extraHeaders)
 
+        if is_form_encoded:
+            # get version and alt parameter only
+            params = [p for p in parameters.items() if p[0] in ["version","alt"]]
+        else:
+            # remove oauth_ parameters like oauth_callback
+            params = [p for p in parameters.items() if p and p[0][:6] != "oauth_"]
+
         query = None
-        if parameters:
-            if is_form_encoded:
-                # use "version" and "alt" parameter only. All others are encoded in body
-                query = "version=" + parameters["version"]
-                if parameters.get("alt"): query += "&alt=" + parameters.get("alt")
-                # now remove vesion and alt to construct the form encoded body
-                if parameters.get("version"):del parameters["version"]
-                if parameters.get("alt"): del parameters["alt"]
-                body = urllib.urlencode(parameters)
-            else:
-                # add all parameters except "oauth_" parameters to the query string 
-                query = "&".join(["%s=%s" % (x, parameters[x]) for x in parameters if "oauth_" not in x])
-        if query:
-            requestUrl += "?" + query
+        if params:
+            query = "&".join(["%s=%s" % (p[0], p[1]) for p in params])
+            if query:
+                requestUrl += "?" + query
 
         if self.debugFlag: self._debug(requestUrl, query, headers, body, token, req)
 
@@ -301,6 +298,7 @@ class BlueViaOauth(BlueVia):
         @return: (tuple):           (HTTP status, authorization URL). HTTP status == "200" for success
         """
         
+        
         response, content = self._signAndSend(self.request_token_url, "POST", None, parameters={"oauth_callback":callback})
         if response["status"] == '200':
             self.request_token = oauth.Token.from_string(content)
@@ -321,7 +319,7 @@ class BlueViaOauth(BlueVia):
         assert type(verifier) is StringType and verifier!= "", "Oauth 'verifier' must be a non empty string"
         
         self.request_token.set_verifier(verifier)
-        response, content = self._signAndSend(self.access_token_url, "POST", self.request_token)
+        response, content = self._signAndSend(self.access_token_url, "POST", self.request_token, parameters={})
         if response["status"] == '200':
             self.access_token = oauth.Token.from_string(content)
             return int(response["status"])
@@ -825,7 +823,7 @@ class BlueViaAds(BlueVia):
         
         assert type(country) is StringType and country!= "", "'country' must be a non empty string"
 
-        return self._getAd(self.access_token, country, targetUserId, textAd, userAgent, keywordList, protectionPolicy)
+        return self._getAd(None, country, targetUserId, textAd, userAgent, keywordList, protectionPolicy)
     
 
     def getAd_3l(self, textAd=False, userAgent='none', keywordList=None, protectionPolicy=1):
@@ -850,33 +848,34 @@ class BlueViaAds(BlueVia):
         Internal method
         """
         
-        parameters={"version":self.version}
-        params ={}
-        params["ad_request_id"] = str(uuid.uuid4()) + time.asctime() 
+        parameters = {}
+        parameters["ad_request_id"] = str(uuid.uuid4()) + time.asctime() 
         if textAd:
-            params["ad_presentation"] = '0104'
+            parameters["ad_presentation"] = '0104'
         else:
-            params["ad_presentation"] = '0101'
+            parameters["ad_presentation"] = '0101'
         if country:
-            params["country"] = country
+            parameters["country"] = country
         if targetUserId:
-            params["target_user_id"] = targetUserId
+            parameters["target_user_id"] = targetUserId
 
-        params["ad_space"] = self.adspaceId
-        params["user_agent"] = userAgent
+        parameters["ad_space"] = self.adspaceId
+        parameters["user_agent"] = userAgent
         if keywordList:
-            params["keywords"] = "|".join(keywordList)
-        params["protection_policy"] = protectionPolicy
+            parameters["keywords"] = "|".join(keywordList)
+        parameters["protection_policy"] = protectionPolicy
 
-        # body = urllib.urlencode(params)
-        parameters.update(params)
+        # exclude version parameter from body
+        body = urllib.urlencode(parameters)
+        
+        parameters["version"] = self.version
 
         response, content = self._signAndSend(self.simple_ads_url % self.environment, "POST", token, \
-                                              parameters=parameters, body="", is_form_encoded=True, \
+                                              parameters=parameters, body=body, is_form_encoded=True, \
                                               extraHeaders={"Content-Type":"application/x-www-form-urlencoded"})
 
         if response["status"] == '201':
-            return (response["status"], _parseAdResponse(content))
+            return (int(response["status"]), _parseAdResponse(content))
         else:
             return response, content
     

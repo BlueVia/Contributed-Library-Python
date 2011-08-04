@@ -105,17 +105,15 @@ Receive MMS and retrieve the attachemnts (first send one or more MMS to the sand
 
 ### Advertising API (3 legged oAuth)
 
-		a = bluevia.BlueViaAds(myAdSpaceId)
-		a.loadAccessToken("token.pkl")
-		a.getAd_3l()
+		a3 = bluevia.BlueViaAds(myAdSpaceId)
+		a3.loadAccessToken("token.pkl")
+		a3.getAd_3l()
 
 ### Advertising API (2 legged oAuth)
 
-		o2 = bluevia.BlueViaOauth(my2leggedConsumer, my2leggedSecret)
-		o2.fetch_request_token()
-		o2.saveAccessToken("token_2.pkl") # saves Request Token only!
-
-		a = bluevia.BlueViaAds(myAdSpaceId)
-		a.loadAccessToken("token_2.pkl") # Request Token only!
-		a.getAd_2l("GB")
+        import oauth2 as oauth
+        a2 = bluevia.BlueViaAds(myAdSpaceId)
+        a2.setConsumer(oauth.Token(	my2leggedConsumer, my2leggedSecret))
+        a2.setDebug(debugFlag)
+		a2.getAd_2l("GB")
 

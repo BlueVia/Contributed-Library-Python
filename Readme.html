@@ -115,20 +115,18 @@
 
 <h3 id="advertisingapi3leggedoauth">Advertising API (3 legged oAuth)</h3>
 
-<pre><code>    a = bluevia.BlueViaAds(myAdSpaceId)
-    a.loadAccessToken(&quot;token.pkl&quot;)
-    a.getAd_3l()
+<pre><code>    a3 = bluevia.BlueViaAds(myAdSpaceId)
+    a3.loadAccessToken(&quot;token.pkl&quot;)
+    a3.getAd_3l()
 </code></pre>
 
 <h3 id="advertisingapi2leggedoauth">Advertising API (2 legged oAuth)</h3>
 
-<pre><code>    o2 = bluevia.BlueViaOauth(my2leggedConsumer, my2leggedSecret)
-    o2.fetch_request_token()
-    o2.saveAccessToken(&quot;token_2.pkl&quot;) # saves Request Token only!
-
-    a = bluevia.BlueViaAds(myAdSpaceId)
-    a.loadAccessToken(&quot;token_2.pkl&quot;) # Request Token only!
-    a.getAd_2l(&quot;GB&quot;)
+<pre><code>    import oauth2 as oauth
+    a2 = bluevia.BlueViaAds(myAdSpaceId)
+    a2.setConsumer(oauth.Token( my2leggedConsumer, my2leggedSecret))
+    a2.setDebug(debugFlag)
+    a2.getAd_2l(&quot;GB&quot;)
 </code></pre>
 </body>
 </html>
