@@ -459,7 +459,7 @@ class BlueViaInboundSMS(BlueVia):
         self.realm = realm
         self.version = version
         self.inbound_sms_url = "https://api.bluevia.com/services/REST/SMS%s/inbound/%s/messages"
-    
+        self.inbound_notification_url = "https://api.bluevia.com/services/REST/SMS%s/inbound/subscriptions"
 
     def receiveSMS(self, shortcode):
         """
@@ -480,8 +480,54 @@ class BlueViaInboundSMS(BlueVia):
             return int(response["status"]), simplejson.loads(content)['receivedSMS']
         else:
             return int(response["status"]), content
-    
+            
+            
+    def subscribeNotifications(self, shortcode, keyword, endpoint, correlator):
+        """
+        Subscribe to Receive SMS notifications
+        
+        @param shortcode: (string): SMS shortcode including country code without "+", e.g. "44"
+        @param keyword: (string): The registered SMS Keyword of the application
+        @param endpoint: (string): The url to which BlueVia shall post the relevant SMS
+        @param correlator: (string): The correlator allows to identify the subscription
 
+        @return: (tuple):           (HTTP status, unsubscribeURL). HTTP status == "201" for success. Use unsubscribeURL in method unsubscribeNotifications.
+        """
+
+        assert self.hasCredentials(), "load oAuth credentials first or execute oAuth Dance"
+        assert type(shortcode) is StringType and shortcode!= "", "'shortcode' must be a non empty string"
+        
+        url = self.inbound_notification_url % (self.environment)
+ 
+        body = '{"smsNotification": {\
+            "reference": { "correlator": "%s", "endpoint": "%s"}, \
+            "destinationAddress": {"phoneNumber": "%s"}, \
+            "criteria": "%s" }}}' % (correlator, endpoint, shortcode, keyword)
+
+        parameters = {"version":self.version, "alt":"json"}
+
+        response, content = self._signAndSend(url, "POST", self.access_token, \
+                                              parameters=parameters, body=body, \
+                                              extraHeaders={"Content-Type":"application/json"})
+        if response["status"] == '201':
+            return int(response["status"]), response["location"]
+        else:
+            return int(response["status"]), content
+
+    def unsubscribeNotifications(self, url):
+        """
+        Unsubscribe to Receive SMS notifications
+        
+        @param url: (string): The unsubscribe URL returned by the subscribeNotifications method 
+
+        @return: (tuple):           (HTTP status, unsubscribeURL). HTTP status == "204" for success.
+        """
+
+        parameters = {"version":self.version}
+        response, content = self._signAndSend(url, "DELETE", self.access_token, parameters=parameters)
+        
+        return int(response["status"]), content
+        
 # # # # # # # # # # # # # # # # 
 # Outbound MMS Class
 # # # # # # # # # # # # # # # # 

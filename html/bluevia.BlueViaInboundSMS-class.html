@@ -118,6 +118,45 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaInboundSMS-class.html#subscribeNotifications" class="summary-sig-name">subscribeNotifications</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">shortcode</span>,
+        <span class="summary-sig-arg">keyword</span>,
+        <span class="summary-sig-arg">endpoint</span>,
+        <span class="summary-sig-arg">correlator</span>)</span><br />
+      Subscribe to Receive SMS notifications</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaInboundSMS.subscribeNotifications">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaInboundSMS-class.html#unsubscribeNotifications" class="summary-sig-name">unsubscribeNotifications</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">url</span>)</span><br />
+      Unsubscribe to Receive SMS notifications</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaInboundSMS.unsubscribeNotifications">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="bluevia.BlueVia-class.html">BlueVia</a></code></b>:
@@ -243,6 +282,69 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="subscribeNotifications"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">subscribeNotifications</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">shortcode</span>,
+        <span class="sig-arg">keyword</span>,
+        <span class="sig-arg">endpoint</span>,
+        <span class="sig-arg">correlator</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaInboundSMS.subscribeNotifications">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Subscribe to Receive SMS notifications</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>shortcode</code></strong> - (string): SMS shortcode including country code without 
+          &quot;+&quot;, e.g. &quot;44&quot;</li>
+        <li><strong class="pname"><code>keyword</code></strong> - (string): The registered SMS Keyword of the application</li>
+        <li><strong class="pname"><code>endpoint</code></strong> - (string): The url to which BlueVia shall post the relevant SMS</li>
+        <li><strong class="pname"><code>correlator</code></strong> - (string): The correlator allows to identify the subscription</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>(tuple):           (HTTP status, unsubscribeURL). HTTP status == 
+          &quot;201&quot; for success. Use unsubscribeURL in method 
+          unsubscribeNotifications.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="unsubscribeNotifications"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unsubscribeNotifications</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">url</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaInboundSMS.unsubscribeNotifications">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Unsubscribe to Receive SMS notifications</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>url</code></strong> - (string): The unsubscribe URL returned by the 
+          subscribeNotifications method</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>(tuple):           (HTTP status, unsubscribeURL). HTTP status == 
+          &quot;204&quot; for success.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -267,7 +369,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jul 31 13:28:46 2011
+    Generated by Epydoc 3.0.1 on Sat Oct  1 15:49:43 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

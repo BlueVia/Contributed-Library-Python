@@ -78,7 +78,7 @@
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>s = bluevia.BlueViaOutboundSms()
 <span class="py-prompt">&gt;&gt;&gt; </span>s.loadAccessToken(<span class="py-string">&quot;newtok.pkl&quot;</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>s.sendSMS([<span class="py-string">&quot;491795489685&quot;</span>], <span class="py-string">&quot;Hallo Welt&quot;</span>)</pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>s.sendSMS([myMobileNumber], <span class="py-string">&quot;Hallo Welt&quot;</span>)</pre>
       <p>Returns the delivery URL</p>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>s.deliveryStatus(<span class="py-string">&quot;&lt;deliveryURL&gt;&quot;</span>)</pre>
@@ -88,13 +88,13 @@
       <p>1) Send a fake SMS</p>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>s = bluevia.BlueViaOutboundSms()
-<span class="py-prompt">&gt;&gt;&gt; </span>s.loadAccessToken(<span class="py-string">&quot;smsmo_hardcoded.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>s.loadAccessToken(<span class="py-string">&quot;smsmo.pkl&quot;</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>s.sendSMS([<span class="py-string">&quot;445480605&quot;</span>], <span class="py-string">&quot;SANDBlueViaRocks so much!&quot;</span>)</pre>
       <p>2) Receive SMS with App</p>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>i = bluevia.BlueViaInboundSMS()
-<span class="py-prompt">&gt;&gt;&gt; </span>i.loadAccessToken(<span class="py-string">&quot;smsmo_hardcoded.pkl&quot;</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>i.receiveSMS(<span class="py-string">&quot;445480605&quot;</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>i.loadAccessToken(<span class="py-string">&quot;smsmo.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>i.receiveSMS(<span class="py-string">&quot;445480605&quot;</span>) <span class="py-comment"># UK shortcode</span></pre>
       <p>For live testing use a mobile from the developer (e.g. the one 
       owning the application)</p>
       <p>1) Send  &quot;TESTBlueViaRocks so much live!&quot; to 
@@ -102,7 +102,7 @@
       <p>2) Retrieve from Test System</p>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>i = bluevia.BlueViaInboundSMS(<span class="py-string">&quot;&quot;</span>) <span class="py-comment"># set sandbox parameter to &quot;&quot; makes test calls</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>i.loadAccessToken(<span class="py-string">&quot;smsmo_hardcoded.pkl&quot;</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span>i.loadAccessToken(<span class="py-string">&quot;smsmo.pkl&quot;</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>i.receiveSMS(<span class="py-string">&quot;445480605&quot;</span>)</pre>
     <h2 class="heading">Location routines</h2>
 <pre class="py-doctest">
@@ -147,9 +147,9 @@
         <span class="summary-sig-arg">requestUrl</span>,
         <span class="summary-sig-arg">method</span>,
         <span class="summary-sig-arg">token</span>,
-        <span class="summary-sig-arg">parameters</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">parameters</span>=<span class="summary-sig-default"><code class="variable-group">{</code><code class="variable-group">}</code></span>,
         <span class="summary-sig-arg">body</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">extraHeaders</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">extraHeaders</span>=<span class="summary-sig-default"><code class="variable-group">{</code><code class="variable-group">}</code></span>,
         <span class="summary-sig-arg">is_form_encoded</span>=<span class="summary-sig-default">False</span>)</span><br />
       Generic method to call an oAuth authorized API in BlueVia including 
       oAuth signature.</td>
@@ -372,9 +372,9 @@
         <span class="sig-arg">requestUrl</span>,
         <span class="sig-arg">method</span>,
         <span class="sig-arg">token</span>,
-        <span class="sig-arg">parameters</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">parameters</span>=<span class="sig-default"><code class="variable-group">{</code><code class="variable-group">}</code></span>,
         <span class="sig-arg">body</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">extraHeaders</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">extraHeaders</span>=<span class="sig-default"><code class="variable-group">{</code><code class="variable-group">}</code></span>,
         <span class="sig-arg">is_form_encoded</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -403,7 +403,7 @@
           DEFAUL: False</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>(tuple):                   (HTTP response, HTTP response data)</dd>
+        <dd>(tuple):                  (HTTP response, HTTP response data)</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -564,7 +564,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Jul 31 13:28:46 2011
+    Generated by Epydoc 3.0.1 on Sat Oct  1 15:49:43 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

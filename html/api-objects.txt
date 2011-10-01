@@ -63,6 +63,7 @@ bluevia.BlueViaInboundMMS.__init__	bluevia.BlueViaInboundMMS-class.html#__init__
 bluevia.BlueVia.setDebug	bluevia.BlueVia-class.html#setDebug
 bluevia.BlueViaInboundSMS	bluevia.BlueViaInboundSMS-class.html
 bluevia.BlueVia._signAndSend	bluevia.BlueVia-class.html#_signAndSend
+bluevia.BlueViaInboundSMS.subscribeNotifications	bluevia.BlueViaInboundSMS-class.html#subscribeNotifications
 bluevia.BlueVia.setAccessToken	bluevia.BlueVia-class.html#setAccessToken
 bluevia.BlueVia.realm	bluevia.BlueVia-class.html#realm
 bluevia.BlueVia._debug	bluevia.BlueVia-class.html#_debug
@@ -71,13 +72,14 @@ bluevia.BlueVia.consumer	bluevia.BlueVia-class.html#consumer
 bluevia.BlueVia.environment	bluevia.BlueVia-class.html#environment
 bluevia.BlueVia.hasCredentials	bluevia.BlueVia-class.html#hasCredentials
 bluevia.BlueVia.version	bluevia.BlueVia-class.html#version
-bluevia.BlueVia.setDebug	bluevia.BlueVia-class.html#setDebug
+bluevia.BlueViaInboundSMS.unsubscribeNotifications	bluevia.BlueViaInboundSMS-class.html#unsubscribeNotifications
 bluevia.BlueVia.loadAccessToken	bluevia.BlueVia-class.html#loadAccessToken
 bluevia.BlueVia.http	bluevia.BlueVia-class.html#http
 bluevia.BlueVia.debugFlag	bluevia.BlueVia-class.html#debugFlag
+bluevia.BlueVia.setConsumer	bluevia.BlueVia-class.html#setConsumer
 bluevia.BlueViaInboundSMS.receiveSMS	bluevia.BlueViaInboundSMS-class.html#receiveSMS
 bluevia.BlueViaInboundSMS.__init__	bluevia.BlueViaInboundSMS-class.html#__init__
-bluevia.BlueVia.setConsumer	bluevia.BlueVia-class.html#setConsumer
+bluevia.BlueVia.setDebug	bluevia.BlueVia-class.html#setDebug
 bluevia.BlueViaLocation	bluevia.BlueViaLocation-class.html
 bluevia.BlueViaLocation.locateTerminal	bluevia.BlueViaLocation-class.html#locateTerminal
 bluevia.BlueVia._signAndSend	bluevia.BlueVia-class.html#_signAndSend
@@ -105,9 +107,9 @@ bluevia.BlueVia.access_token	bluevia.BlueVia-class.html#access_token
 bluevia.BlueVia.setDebug	bluevia.BlueVia-class.html#setDebug
 bluevia.BlueVia.loadAccessToken	bluevia.BlueVia-class.html#loadAccessToken
 bluevia.BlueVia.environment	bluevia.BlueVia-class.html#environment
-bluevia.BlueVia.setConsumer	bluevia.BlueVia-class.html#setConsumer
 bluevia.BlueVia.hasCredentials	bluevia.BlueVia-class.html#hasCredentials
 bluevia.BlueVia.version	bluevia.BlueVia-class.html#version
+bluevia.BlueVia.setConsumer	bluevia.BlueVia-class.html#setConsumer
 bluevia.BlueViaOauth.getAccessToken	bluevia.BlueViaOauth-class.html#getAccessToken
 bluevia.BlueViaOauth.fetch_request_token	bluevia.BlueViaOauth-class.html#fetch_request_token
 bluevia.BlueVia.http	bluevia.BlueVia-class.html#http
