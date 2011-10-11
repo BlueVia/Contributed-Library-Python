@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>bluevia.BlueViaUserContext</title>
+  <title>bluevia.BlueViaPayment</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -35,7 +35,7 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="bluevia-module.html">Module&nbsp;bluevia</a> ::
-        Class&nbsp;BlueViaUserContext
+        Class&nbsp;BlueViaPayment
       </span>
     </td>
     <td>
@@ -45,23 +45,24 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="bluevia.BlueViaUserContext-class.html"
+            >]&nbsp;|&nbsp;<a href="bluevia.BlueViaPayment-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class BlueViaUserContext</h1><p class="nomargin-top"><span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Class BlueViaPayment</h1><p class="nomargin-top"><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-<a href="bluevia.BlueVia-class.html">BlueVia</a> --+
-          |
-         <strong class="uidshort">BlueViaUserContext</strong>
+ <a href="bluevia.BlueVia-class.html">BlueVia</a> --+    
+           |    
+<a href="bluevia.BlueViaOauth-class.html">BlueViaOauth</a> --+
+               |
+              <strong class="uidshort">BlueViaPayment</strong>
 </pre>
 
 <hr />
-<p>The BlueVia class for retrieving information about user and 
-  terminal.</p>
+<p>The BlueVia class for payments.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -86,32 +87,15 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bluevia.BlueViaUserContext-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="bluevia.BlueViaPayment-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">consumer_key</span>,
+        <span class="summary-sig-arg">consumer_secret</span>,
         <span class="summary-sig-arg">sandbox</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_Sandbox</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">realm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">BlueVia</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">version</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">v1</code><code class="variable-quote">'</code></span>)</span><br />
-      Initialize the BlueViaUserContext object</td>
+      Initialize the BlueViaPayment object</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.__init__">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="_getInfo"></a><span class="summary-sig-name">_getInfo</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">infoType</span>,
-        <span class="summary-sig-arg">resultKey</span>)</span><br />
-      Internal method.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext._getInfo">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.__init__">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -125,10 +109,15 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bluevia.BlueViaUserContext-class.html#getUserInfo" class="summary-sig-name">getUserInfo</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Retrieve all available info about the user.</td>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaPayment-class.html#fetch_request_token" class="summary-sig-name">fetch_request_token</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">amount</span>,
+        <span class="summary-sig-arg">currency</span>,
+        <span class="summary-sig-arg">serviceId</span>,
+        <span class="summary-sig-arg">serviceName</span>,
+        <span class="summary-sig-arg">callback</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">oob</code><code class="variable-quote">'</code></span>)</span><br />
+      First call of the Payment oAuth Dance.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getUserInfo">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.fetch_request_token">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -142,11 +131,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bluevia.BlueViaUserContext-class.html#getPersonalInfo" class="summary-sig-name">getPersonalInfo</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Retrieve personal info about the user (depending on country, see 
-      www.bluevia.com)</td>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaPayment-class.html#savePaymentInfo" class="summary-sig-name">savePaymentInfo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">path</span>)</span><br />
+      Save Access Token and payment info (amount, currency, serviceId, 
+      serviceName, correlator) Will be valid for 48h only!</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getPersonalInfo">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.savePaymentInfo">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -160,11 +150,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bluevia.BlueViaUserContext-class.html#getProfileInfo" class="summary-sig-name">getProfileInfo</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Retrieve info about the user's profile (depending on country, see 
-      www.bluevia.com)</td>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaPayment-class.html#loadPaymentInfo" class="summary-sig-name">loadPaymentInfo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">path</span>)</span><br />
+      Load Access Token and payment info (amount, currency, serviceId, 
+      serviceName, correlator)</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getProfileInfo">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.loadPaymentInfo">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -178,11 +169,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bluevia.BlueViaUserContext-class.html#getAccessInfo" class="summary-sig-name">getAccessInfo</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Retrieve info about the user's access type (depending on country, see
-      www.bluevia.com)</td>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaPayment-class.html#issuePayment" class="summary-sig-name">issuePayment</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Issue the actual payment with amount, currency, serviceId, 
+      serviceName given by fetch_request_token method</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getAccessInfo">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.issuePayment">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -196,11 +187,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="bluevia.BlueViaUserContext-class.html#getTerminalInfo" class="summary-sig-name">getTerminalInfo</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Retrieve info about the user's terminal (depending on country, see 
-      www.bluevia.com)</td>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaPayment-class.html#checkPayment" class="summary-sig-name">checkPayment</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">transactionId</span>)</span><br />
+      Check the Payment status (polling)</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getTerminalInfo">source&nbsp;code</a></span>
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.checkPayment">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="bluevia.BlueViaPayment-class.html#cancelPayment" class="summary-sig-name">cancelPayment</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">correlator</span>)</span><br />
+      Check the Payment status (polling)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.cancelPayment">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -210,6 +219,12 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="bluevia.BlueViaOauth-class.html">BlueViaOauth</a></code></b>:
+      <code><a href="bluevia.BlueViaOauth-class.html#fetch_access_token">fetch_access_token</a></code>,
+      <code><a href="bluevia.BlueViaOauth-class.html#getAccessToken">getAccessToken</a></code>,
+      <code><a href="bluevia.BlueViaOauth-class.html#getConsumer">getConsumer</a></code>,
+      <code><a href="bluevia.BlueViaOauth-class.html#saveAccessToken">saveAccessToken</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="bluevia.BlueVia-class.html">BlueVia</a></code></b>:
       <code><a href="bluevia.BlueVia-class.html#hasCredentials">hasCredentials</a></code>,
       <code><a href="bluevia.BlueVia-class.html#loadAccessToken">loadAccessToken</a></code>,
@@ -281,141 +296,204 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">consumer_key</span>,
+        <span class="sig-arg">consumer_secret</span>,
         <span class="sig-arg">sandbox</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">_Sandbox</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">realm</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">BlueVia</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">version</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">v1</code><code class="variable-quote">'</code></span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.__init__">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.__init__">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Initialize the BlueViaUserContext object</p>
+  <p>Initialize the BlueViaPayment object</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>consumer_key</code></strong> - (string):     Key of the Consumer Credentials</li>
+        <li><strong class="pname"><code>consumer_secret</code></strong> - (string):  Secret of the Consumer Credentials</li>
         <li><strong class="pname"><code>sandbox</code></strong> - (string): Indicates whether testing should be done in Sandbox 
           mode. Use &quot;&quot; for real network access; Default: 
           &quot;_Sandbox&quot;</li>
-        <li><strong class="pname"><code>realm</code></strong> - (string): Realm string; Default: &quot;BlueVia&quot;</li>
+        <li><strong class="pname"><code>realm</code></strong> - (string):   Realm string; Default: &quot;BlueVia&quot;</li>
         <li><strong class="pname"><code>version</code></strong> - (string): BlueVia API version; Default: &quot;v1&quot;</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="bluevia.BlueViaOauth-class.html#__init__">BlueViaOauth.__init__</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fetch_request_token"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fetch_request_token</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">amount</span>,
+        <span class="sig-arg">currency</span>,
+        <span class="sig-arg">serviceId</span>,
+        <span class="sig-arg">serviceName</span>,
+        <span class="sig-arg">callback</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">oob</code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.fetch_request_token">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>First call of the Payment oAuth Dance. Provide the Consumer Credential
+  and request the one time Request Token (Override of BlueViaOauth 
+  fetch_request_token method)</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>amount</code></strong> - (string):      Price in the form 125 for 1.25</li>
+        <li><strong class="pname"><code>currency</code></strong> - (string):    Currency, e.g. &quot;EUR&quot;, &quot;GBP&quot;</li>
+        <li><strong class="pname"><code>serviceId</code></strong> - (string):   Product identifier provided by our Mobile Payments 
+          Partner (sandbox: free choice)</li>
+        <li><strong class="pname"><code>serviceName</code></strong> - (string): Product name as registered at our Mobile Payments 
+          Partner (sandbox: free choice)</li>
+        <li><strong class="pname"><code>callback</code></strong> - (string):    The callback URL or &quot;oob&quot;. Default: 
+          &quot;oob&quot;</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>(tuple):             (HTTP status, authorization URL). HTTP 
+          status == &quot;200&quot; for success</dd>
+    <dt>Overrides:
+        <a href="bluevia.BlueViaOauth-class.html#fetch_request_token">BlueViaOauth.fetch_request_token</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="savePaymentInfo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">savePaymentInfo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">path</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.savePaymentInfo">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Save Access Token and payment info (amount, currency, serviceId, 
+  serviceName, correlator) Will be valid for 48h only!</p>
+  <p>Note: Unencrypted storage. Use only during development</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>path</code></strong> - (string): Path to file on disk (pickle file)</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="getUserInfo"></a>
+<a name="loadPaymentInfo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">getUserInfo</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">loadPaymentInfo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">path</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getUserInfo">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.loadPaymentInfo">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Retrieve all available info about the user. Aggregates 
-  getPersonalInfo, getProfileInfo, getAccessInfo, getTerminalInfo</p>
+  <p>Load Access Token and payment info (amount, currency, serviceId, 
+  serviceName, correlator)</p>
   <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>(tuple): (HTTP status, (dict) userInfo). HTTP status == 
-          &quot;200&quot; for success.</dd>
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>path</code></strong> - (string): Path to file on disk (pickle file)</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="getPersonalInfo"></a>
+<a name="issuePayment"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">getPersonalInfo</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">issuePayment</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getPersonalInfo">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.issuePayment">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Retrieve personal info about the user (depending on country, see 
-  www.bluevia.com)</p>
+  <p>Issue the actual payment with amount, currency, serviceId, serviceName
+  given by fetch_request_token method</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>(tuple): (HTTP status, (dict) userPersonalInfo). HTTP status == 
-          &quot;200&quot; for success.</dd>
+        <dd>(tuple):              (HTTP status, (dict) paymentStatus). HTTP 
+          status == &quot;200&quot; for success.</dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="getProfileInfo"></a>
+<a name="checkPayment"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">getProfileInfo</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">checkPayment</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">transactionId</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getProfileInfo">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.checkPayment">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Retrieve info about the user's profile (depending on country, see 
-  www.bluevia.com)</p>
+  <p>Check the Payment status (polling)</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>transactionId</code></strong> - (string): Transaction Id provided by issuePayment method</li>
+    </ul></dd>
     <dt>Returns:</dt>
-        <dd>(tuple): (HTTP status, (dict) userProfileInfo). HTTP status == 
-          &quot;200&quot; for success.</dd>
+        <dd>(tuple):              (HTTP status, (dict) paymentStatus). HTTP 
+          status == &quot;200&quot; for success.</dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="getAccessInfo"></a>
+<a name="cancelPayment"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">getAccessInfo</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cancelPayment</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">correlator</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getAccessInfo">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaPayment.cancelPayment">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Retrieve info about the user's access type (depending on country, see 
-  www.bluevia.com)</p>
+  <p>Check the Payment status (polling)</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>correlator</code></strong> - (string): correlator provided by issuePayment method</li>
+    </ul></dd>
     <dt>Returns:</dt>
-        <dd>(tuple): (HTTP status, (dict) userAccessInfo). HTTP status == 
-          &quot;200&quot; for success.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="getTerminalInfo"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">getTerminalInfo</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="bluevia-pysrc.html#BlueViaUserContext.getTerminalInfo">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Retrieve info about the user's terminal (depending on country, see 
-  www.bluevia.com)</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>(tuple): (HTTP status, (dict) userTerminalInfo). HTTP status == 
-          &quot;200&quot; for success.</dd>
+        <dd>(tuple):            (HTTP status, (dict) paymentStatus). HTTP 
+          status == &quot;200&quot; for success.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -443,7 +521,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 11 20:58:48 2011
+    Generated by Epydoc 3.0.1 on Tue Oct 11 20:58:47 2011
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -118,6 +118,17 @@ class BlueVia():
         >>> a = bluevia.BlueViaAds("<adspace Id>")
         >>> a.loadAccessToken("newtok.pkl")
         >>> a.getAd_3l(keywordList = ["sport"])
+
+    Payment routines
+    ----------------
+
+        >>> p = bluevia.BlueViaPayment('<secret>', '<key>')
+        >>> p.fetch_request_token(<amount>, <currency>, <serviceId>, <serviceName>)
+        >>> p.fetch_access_token(<verifier>)
+        >>> p.savePaymentInfo("payment.pkl") # optional, token valid for 48 h
+        >>> p.loadPaymentInfo("payment.pkl") # optional
+        >>> p.issuePayment()
+        >>> p.checkPayment(<transactionId>)
     """
 
     access_token = None
@@ -142,7 +153,7 @@ class BlueVia():
         @param parameters: (dict):         Necessary call paramters, e.g. version, alt. Default: None
         @param body: (string):             Body of the HTTP call. Default: ""
         @param extraHeaders: (dict):       Some calls need extra headers, e.g. {"Content-Type":"application/json"}. Default: None
-        @param is_form_encoded: (boolean): If True parameters are send as form encoded HTTP body. DEFAUL: False
+        @param is_form_encoded: (boolean): If True parameters are send as form encoded HTTP body. DEFAULT: False
         
         @return: (tuple):                  (HTTP response, HTTP response data)
         """
@@ -152,6 +163,9 @@ class BlueVia():
         req.sign_request(oauth.SignatureMethod_HMAC_SHA1(), self.consumer, token)
 
         headers = req.to_header(realm=self.realm)
+        if parameters.has_key("xoauth_apiName"):
+            headers['Authorization'] += ', xoauth_apiName="%s"' % parameters.get("xoauth_apiName")
+            
         if extraHeaders:
             headers.update(extraHeaders)
 
@@ -410,7 +424,7 @@ class BlueViaOutboundSms(BlueVia):
 
         response, content = self._signAndSend(self.outbound_sms_url % self.environment, "POST", self.access_token, \
                                               parameters=parameters, body=body, \
-                                              extraHeaders={"Content-Type":"application/json"})
+                                              extraHeaders={"Content-Type":"application/json;charset=UTF8"})
         if response["status"] == '201':
             return int(response["status"]), response["location"]
         else:
@@ -508,7 +522,7 @@ class BlueViaInboundSMS(BlueVia):
 
         response, content = self._signAndSend(url, "POST", self.access_token, \
                                               parameters=parameters, body=body, \
-                                              extraHeaders={"Content-Type":"application/json"})
+                                              extraHeaders={"Content-Type":"application/json;charset=UTF8"})
         if response["status"] == '201':
             return int(response["status"]), response["location"]
         else:
@@ -918,10 +932,211 @@ class BlueViaAds(BlueVia):
 
         response, content = self._signAndSend(self.simple_ads_url % self.environment, "POST", token, \
                                               parameters=parameters, body=body, is_form_encoded=True, \
-                                              extraHeaders={"Content-Type":"application/x-www-form-urlencoded"})
+                                              extraHeaders={"Content-Type":"application/x-www-form-urlencoded;charset=UTF8"})
 
         if response["status"] == '201':
             return (int(response["status"]), _parseAdResponse(content))
         else:
             return response, content
     
+# # # # # # # # # # # # # # # # 
+# Payment Class
+# # # # # # # # # # # # # # # # 
+
+class BlueViaPayment(BlueViaOauth):
+    """
+    The BlueVia class for payments.
+    """
+
+    def __init__(self, consumer_key, consumer_secret, sandbox = "_Sandbox", realm = "BlueVia", version="v1"):
+        """
+        Initialize the BlueViaPayment object
+
+        @param consumer_key: (string):     Key of the Consumer Credentials
+        @param consumer_secret: (string):  Secret of the Consumer Credentials
+        @param sandbox: (string): Indicates whether testing should be done in Sandbox mode. Use "" for real network access; Default: "_Sandbox"
+        @param realm: (string):   Realm string; Default: "BlueVia"
+        @param version: (string): BlueVia API version; Default: "v1"
+        """
+        
+        BlueViaOauth.__init__(self, consumer_key, consumer_secret)
+        self.environment = sandbox
+        self.realm = realm
+        self.version = version        
+        self.payment_url   = "https://api.bluevia.com/services/RPC/Payment%s/payment"
+        self.payment_status_url   = "https://api.bluevia.com/services/RPC/Payment%s/getPaymentStatus"
+        self.payment_cancel_url   = "https://api.bluevia.com/services/RPC/Payment%s/cancelAuthorization"
+
+    def fetch_request_token(self, amount, currency, serviceId, serviceName, callback="oob"):
+        """
+        First call of the Payment oAuth Dance. Provide the Consumer Credential and request the one time Request Token
+        (Override of BlueViaOauth fetch_request_token method)
+
+        @param amount: (string):      Price in the form 125 for 1.25
+        @param currency: (string):    Currency, e.g. "EUR", "GBP"
+        @param serviceId: (string):   Product identifier provided by our Mobile Payments Partner (sandbox: free choice)
+        @param serviceName: (string): Product name as registered at our Mobile Payments Partner (sandbox: free choice)
+        @param callback: (string):    The callback URL or "oob". Default: "oob"
+
+        @return: (tuple):             (HTTP status, authorization URL). HTTP status == "200" for success
+        """
+
+        assert type(amount) is IntType and amount > 0, "'amount' must be an Integer > 0"
+        assert type(currency) is StringType and currency!= "", "'currency' must be a non empty string"
+        assert type(serviceId) is StringType and serviceId!= "", "'serviceId' must be a non empty string"
+        assert type(serviceName) is StringType and serviceName!= "", "'serviceName' must be a non empty string"
+
+        self.amount = amount
+        self.currency = currency
+        self.serviceId = serviceId
+        self.serviceName = serviceName
+        self.correlator = str(uuid.uuid4())
+         
+        paymentInfo = {"paymentInfo.currency":currency, "paymentInfo.amount":amount}
+        serviceInfo = {"serviceInfo.name":serviceName, "serviceInfo.serviceID":serviceId}
+
+        parameters={"oauth_callback":callback, "xoauth_apiName":"%s%s" % ("Payment",self.environment)}
+        parameters.update(paymentInfo)
+        parameters.update(serviceInfo)
+
+        body = "%s&%s" % (urllib.urlencode(paymentInfo), urllib.urlencode(serviceInfo))
+        body = body.replace("+", "%20")
+        
+        response, content = self._signAndSend(self.request_token_url, "POST", None, \
+                                              parameters=parameters, \
+                                              body=body, is_form_encoded=True, \
+                                              extraHeaders={"Content-Type":"application/x-www-form-urlencoded;charset=UTF8"})
+        if response["status"] == '200':
+            self.request_token = oauth.Token.from_string(content)
+            return int(response["status"]), "%s?oauth_token=%s" % (self.authorization_url, self.request_token.key)
+        else:
+            return int(response["status"]), content
+
+
+    def savePaymentInfo(self, path):
+        """
+        Save Access Token and payment info (amount, currency, serviceId, serviceName, correlator)
+        Will be valid for 48h only!
+        
+        Note: Unencrypted storage. Use only during development
+
+        @param path: (string): Path to file on disk (pickle file)
+        """
+
+        assert type(path) is StringType and path!= "", "'path' must be a non empty string"
+
+        fd = open(path, "w")
+        data = (self.consumer, self.access_token, self.amount, self.currency, \
+                self.serviceId, self.serviceName, self.correlator)
+        pickle.dump(data, fd)
+        fd.close()
+
+
+    def loadPaymentInfo(self, path):
+        """
+        Load Access Token and payment info (amount, currency, serviceId, serviceName, correlator)
+
+        @param path: (string): Path to file on disk (pickle file)
+        """
+
+        assert type(path) is StringType and path!= "", "'path' must be a non empty string"
+
+        if os.path.exists(path):
+            fd = open(path, "r")
+            self.consumer, self.access_token, self.amount, self.currency, \
+                           self.serviceId, self.serviceName, self.correlator = pickle.load(fd)
+            fd.close()
+            return True
+        else:
+            return False
+
+
+    def issuePayment(self):   
+        """
+        Issue the actual payment with amount, currency, serviceId, serviceName given by fetch_request_token method
+
+        @return: (tuple):              (HTTP status, (dict) paymentStatus). HTTP status == "200" for success.          
+        """
+        assert self.hasCredentials(), "load oAuth credentials first or execute oAuth Dance"
+        assert type(self.amount) is IntType and self.amount > 0, "'amount' must be an Integer > 0"
+        assert type(self.currency) is StringType and self.currency!= "", "'currency' must be a non empty string"
+
+        p = {"methodCall": {
+              "id": self.correlator,
+              "version": self.version,
+              "method": "PAYMENT",
+              "params": { "paymentParams": {"paymentInfo": { "amount": str(self.amount),
+                                                             "currency": self.currency  },
+                                            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ") } }
+            }}
+        body = simplejson.dumps(p)
+
+        response, content = self._signAndSend(self.payment_url % self.environment, "POST", self.access_token, \
+                                              parameters={}, body=body, \
+                                              extraHeaders={"Content-Type":"application/json;charset=UTF8"})
+        if response["status"] == '200':
+            return int(response["status"]), simplejson.loads(content)
+        else:
+            return int(response["status"]), content
+        
+
+    def checkPayment(self, transactionId):
+        """
+        Check the Payment status (polling)
+        
+        @param transactionId: (string): Transaction Id provided by issuePayment method
+
+        @return: (tuple):              (HTTP status, (dict) paymentStatus). HTTP status == "200" for success.          
+        """
+        
+        assert self.hasCredentials(), "load oAuth credentials first or execute oAuth Dance"
+        assert type(transactionId) is StringType and transactionId!= "", "'transactionId' must be a non empty string"
+
+        p = {"methodCall": {
+              "id": self.correlator,
+              "version": self.version,
+              "method": "GET_PAYMENT_STATUS",
+              "params": { "getPaymentStatusParams": { "transactionId": transactionId} }
+        }}
+        
+        body = simplejson.dumps(p)
+ 
+        response, content = self._signAndSend(self.payment_status_url % self.environment, "POST", self.access_token, \
+                                              parameters={}, body=body, \
+                                              extraHeaders={"Content-Type":"application/json;charset=UTF8"})
+
+        if response["status"] == '200':
+            return int(response["status"]), simplejson.loads(content)
+        else:
+            return int(response["status"]), content       
+
+
+    def cancelPayment(self, correlator):
+        """
+        Check the Payment status (polling)
+
+        @param correlator: (string): correlator provided by issuePayment method
+
+        @return: (tuple):            (HTTP status, (dict) paymentStatus). HTTP status == "200" for success.          
+        """
+
+        assert self.hasCredentials(), "load oAuth credentials first or execute oAuth Dance"
+        assert type(correlator) is StringType and correlator!= "", "'correlator' must be a non empty string"
+
+        p = {"methodCall": {
+              "id": self.correlator,
+              "version": self.version,
+              "method": "CANCEL_AUTHORIZATION"
+        }}
+
+        body = simplejson.dumps(p)
+
+        response, content = self._signAndSend(self.payment_cancel_url % self.environment, "POST", self.access_token, \
+                                              parameters={}, body=body, \
+                                              extraHeaders={"Content-Type":"application/json;charset=UTF8"})
+
+        if response["status"] == '200':
+            return int(response["status"]), simplejson.loads(content)
+        else:
+            return int(response["status"]), content       
+        
