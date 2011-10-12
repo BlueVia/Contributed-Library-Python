@@ -117,3 +117,25 @@ Receive MMS and retrieve the attachemnts (first send one or more MMS to the sand
         a2.setDebug(debugFlag)
 		a2.getAd_2l("GB")
 
+### Payment API
+
+        p = bluevia.BlueViaPayment(my3leggedConsumer, my3leggedSecret)
+        amount      = 199       # no float, 199 means 1.99 EUR
+        currency    = "EUR"     # EUR, GBP, ...
+
+        # In sandbox any strings, commercially the service Id / Name given by the Mobile Payment Partner
+        serviceId   = "123456"          
+        serviceName = "My Digital Good" 
+
+        p.fetch_request_token(amount, currency, serviceId, serviceName)
+
+        # When finished copy verifier, e.g 176539
+        p.fetch_access_token("176539")
+        
+        p.savePaymentInfo("payment.pkl") # optional, token valid for 48 h
+        p.loadPaymentInfo("payment.pkl") # optional
+        
+        result = p.issuePayment()
+        txid = result[1]["methodResponse"]["result"]["paymentResult"]["transactionId"]
+        p.checkPayment(txid)
+
