@@ -23,7 +23,7 @@
 #
 
 #
-# Version 01.08.2011
+# Version 12.10.2011
 #
 
 import oauth2 as oauth
@@ -33,12 +33,20 @@ from bluevia_helpers import _parseAdResponse
 from bluevia_helpers import _encodeMultipart
 from bluevia_helpers import _decodeMultipart
 
+
+__author__ = 'Bernhard Walter ( @bernhard42 )'
+__license__  = 'MIT'
+__version__  = '12.10.2011'
+
+
 # # # # # # # # # # # # # # # # 
 # base Class
 # # # # # # # # # # # # # # # #
 
 class BlueVia():
     """
+    Version 12.10.2011
+
     The BlueVia base class. All other BlueVia classes are inherited from this class BlueVia. 
     
     Mainly Stores consumer and access_token, provides the generic _signAndSend(...) a debug() method
@@ -49,7 +57,7 @@ class BlueVia():
     oAuth routines 
     --------------
     
-        >>> o = bluevia.BlueViaOauth('<secret>', '<key>')
+        >>> o = bluevia.BlueViaOauth('<key>', '<secret>')
         >>> o.fetch_request_token()
     
     Returns the oAuth URL for user authorization 
@@ -122,7 +130,7 @@ class BlueVia():
     Payment routines
     ----------------
 
-        >>> p = bluevia.BlueViaPayment('<secret>', '<key>')
+        >>> p = bluevia.BlueViaPayment('<key>', '<secret>')
         >>> p.fetch_request_token(<amount>, <currency>, <serviceId>, <serviceName>)
         >>> p.fetch_access_token(<verifier>)
         >>> p.savePaymentInfo("payment.pkl") # optional, token valid for 48 h
