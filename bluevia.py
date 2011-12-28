@@ -1098,7 +1098,7 @@ class BlueViaPayment(BlueViaOauth):
         """
         
         assert self.hasCredentials(), "load oAuth credentials first or execute oAuth Dance"
-        assert type(transactionId) is StringType and transactionId!= "", "'transactionId' must be a non empty string"
+        assert type(transactionId) in [StringType, UnicodeType] and transactionId!= "", "'transactionId' must be a non empty string"
 
         p = {"methodCall": {
               "id": self.correlator,
@@ -1129,7 +1129,7 @@ class BlueViaPayment(BlueViaOauth):
         """
 
         assert self.hasCredentials(), "load oAuth credentials first or execute oAuth Dance"
-        assert type(correlator) is StringType and correlator!= "", "'correlator' must be a non empty string"
+        assert type(correlator) in [StringType, UnicodeType] and correlator!= "", "'correlator' must be a non empty string"
 
         p = {"methodCall": {
               "id": self.correlator,
