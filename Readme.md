@@ -28,14 +28,15 @@ The easiest way to get these is *easy_install*  from python setup tools:
 
 ### Some personal settings
 
+	
 		myMobileNumber = "44xxxxxxxxxx"
 	
 		myShortcode = "445480605" # UK
 		myAdSpaceId = "xxxxx"
 
 		# App with all API's ticked 
-		my3leggedConsumer = 'xxxxxxxxxxxxxxxx'
-		my3leggedSecret = 'xxxxxxxxxxxx'
+		my3leggedConsumer = 'xxxxxxxxxxxxxxxx' #Your developer consumer key
+		my3leggedSecret = 'xxxxxxxxxxxx' #Your developer consumer secret
 
 		# App with advertising only
 		my2leggedConsumer = 'xxxxxxxxxxxxxxxx'
@@ -44,12 +45,14 @@ The easiest way to get these is *easy_install*  from python setup tools:
 ### oAuth Dance
 
 		import bluevia
+		import webbrowser 
+		
 		o3 = bluevia.BlueViaOauth(my3leggedConsumer, my3leggedSecret)
-		o3.fetch_request_token()
-		# returns the authorization URL. Paste into browser.
-
-		# When finished copy verifier, e.g 135791
-		o3.fetch_access_token("135791")
+		url = o3.fetch_request_token()[1]
+		webbrowser.open(url) # Opens authorisation url in browser
+		reqtok = str(raw_input("Enter pin code")) #asks for authorisation pin and saves it in variable
+		o3.fetch_access_token(reqtok)
+		o3.saveAccessToken(myMobileNumber + "_acctok.pk1")
 		
 ### Send SMS and track delivery
 
