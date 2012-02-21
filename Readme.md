@@ -57,7 +57,7 @@ The easiest way to get these is *easy_install*  from python setup tools:
 ### Send SMS and track delivery
 
 		s = bluevia.BlueViaOutboundSms()
-		s.loadAccessToken("token.pkl")
+		s.loadAccessToken(myMobileNumber + "_acctok.pk1")
 		r = s.sendSMS([myMobileNumber], "Hello BlueVia")
 		s.deliveryStatus(r[1])
 
@@ -70,14 +70,14 @@ Note: to use the real radio network call (this holds for all BlueVia calless bel
 		s.sendSMS([shortcode], "SANDBWTUT01 BlueVia")
 
 		si = bluevia.BlueViaInboundSMS()
-		si.loadAccessToken("token.pkl")
+		si.loadAccessToken(myMobileNumber + "_acctok.pk1")
 		si.receiveSMS(shortcode)
 
 
 ### Send MMS
 
 		m = bluevia.BlueViaOutboundMms()
-		m.loadAccessToken("token.pkl")
+		m.loadAccessToken(myMobileNumber + "_acctok.pk1")
 		m.sendMMS(myMobileNumber, "Hello Multimedia BlueVia", \
 				  ["Message\n Number 1", "Yet another\n Message"], \
 				  ["samples/atextfile.txt", "samples/image.jpg"])
@@ -89,7 +89,7 @@ Receive MMS and retrieve the attachemnts (first send one or more MMS to the sand
 				  ["samples/atextfile.txt", "samples/image.jpg"])
 
 		mi = bluevia.BlueViaInboundMMS()
-		mi.loadAccessToken("token.pkl")
+		mi.loadAccessToken(myMobileNumber + "_acctok.pk1")
 		r = mi.receiveMMS(myShortcode)
 		mid = r[1]['receivedMessages']['messageIdentifier']
 		mi.retrieveAttachments(myShortCode, mid)
@@ -97,19 +97,19 @@ Receive MMS and retrieve the attachemnts (first send one or more MMS to the sand
 ### User Context API
 
 		u = bluevia.BlueViaUserContext()
-		u.loadAccessToken("token.pkl")
+		u.loadAccessToken(myMobileNumber + "_acctok.pk1")
 		u.getUserInfo()
 
 ### Location API
 
 		l = bluevia.BlueViaLocation()
-		l.loadAccessToken("token.pkl")
+		l.loadAccessToken(myMobileNumber + "_acctok.pk1")
 		l.locateTerminal()
 
 ### Advertising API (3 legged oAuth)
 
 		a3 = bluevia.BlueViaAds(myAdSpaceId)
-		a3.loadAccessToken("token.pkl")
+		a3.loadAccessToken(myMobileNumber + "_acctok.pk1")
 		a3.getAd_3l()
 
 ### Advertising API (2 legged oAuth)
