@@ -23,7 +23,7 @@
 #
 
 #
-# Version 12.10.2011
+# Version 04.03.2012
 #
 
 import oauth2 as oauth
@@ -36,7 +36,7 @@ from bluevia_helpers import _decodeMultipart
 
 __author__ = 'Bernhard Walter ( @bernhard42 )'
 __license__  = 'MIT'
-__version__  = '12.10.2011'
+__version__  = '04.03.2012'
 
 
 # # # # # # # # # # # # # # # # 
@@ -45,12 +45,16 @@ __version__  = '12.10.2011'
 
 class BlueVia():
     """
-    Version 12.10.2011
+    Version 04.03.2012
 
     The BlueVia base class. All other BlueVia classes are inherited from this class BlueVia. 
     
     Mainly Stores consumer and access_token, provides the generic _signAndSend(...) a debug() method
  
+    Changes since 12.10.2011:
+    - defined test_authorization_url and added test_env param to BlueViaOauth fetch_request_token() method
+    - Added a JSON response cleanup to BlueViaUserContext
+    
     HOWTO USE
     =========
     
@@ -305,26 +309,33 @@ class BlueViaOauth(BlueVia):
         
         self.realm = realm
         self.consumer = oauth.Consumer(consumer_key, consumer_secret)
-        self.request_token_url = 'https://api.bluevia.com/services/REST/Oauth/getRequestToken'
-        self.access_token_url  = 'https://api.bluevia.com/services/REST/Oauth/getAccessToken'
-        self.authorization_url = 'https://connect.bluevia.com/authorise'
+        self.request_token_url      = 'https://api.bluevia.com/services/REST/Oauth/getRequestToken'
+        self.access_token_url       = 'https://api.bluevia.com/services/REST/Oauth/getAccessToken'
+        self.authorization_url      = 'https://connect.bluevia.com/authorise'
+        self.test_authorization_url = 'https://bluevia.com/test-apps/authorise'
         self.request_token = None
-    
         
-    def fetch_request_token(self, callback="oob"):
+        
+    def fetch_request_token(self, testing=True, callback="oob"):
         """
         First call of the oAuth Dance. Provide the Consumer Credential and request the Request Token
         
-        @param callback: (string): The callback URL or "oob". Default: "oob"
+        @param callback: (string):  The callback URL or "oob". Default: "oob"
+        @param testing: (string):   True: tests in Sandbox or Test mode; False: run in Production mode
         
         @return: (tuple):           (HTTP status, authorization URL). HTTP status == "200" for success
         """
         
-        
+        if testing:
+            print ("Testing mode!")
+            
         response, content = self._signAndSend(self.request_token_url, "POST", None, parameters={"oauth_callback":callback})
         if response["status"] == '200':
             self.request_token = oauth.Token.from_string(content)
-            return int(response["status"]), "%s?oauth_token=%s" % (self.authorization_url, self.request_token.key)
+            if testing:
+                return int(response["status"]), "%s?oauth_token=%s" % (self.test_authorization_url, self.request_token.key)
+            else:
+                return int(response["status"]), "%s?oauth_token=%s" % (self.authorization_url, self.request_token.key)
         else:
             return int(response["status"]), content
     
@@ -742,7 +753,20 @@ class BlueViaUserContext(BlueVia):
         parameters = {"version":self.version, "alt":"json"}
         response, content = self._signAndSend(url, "GET", self.access_token, parameters=parameters)
         if response["status"] == '200':
-            return int(response["status"]), simplejson.loads(content)[resultKey]
+            result = content # return content if json conversion fails
+            
+            try: # first try
+                result = simplejson.loads(content)[resultKey]
+            except: # second try, "JSON response cleanup": seems that sometimes some quotes are missing
+                import re
+                r = re.compile('\,([a-zA-Z]+)\:')
+                content2 = r.sub(r',"\1":', content)
+                try:
+                    result = simplejson.loads(content2)[resultKey]
+                except:
+                    pass # result is set above
+                    
+            return int(response["status"]), result
         else:
             return int(response["status"]), content     
     
@@ -975,7 +999,7 @@ class BlueViaPayment(BlueViaOauth):
         self.payment_status_url   = "https://api.bluevia.com/services/RPC/Payment%s/getPaymentStatus"
         self.payment_cancel_url   = "https://api.bluevia.com/services/RPC/Payment%s/cancelAuthorization"
 
-    def fetch_request_token(self, amount, currency, serviceId, serviceName, callback="oob"):
+    def fetch_request_token(self, amount, currency, serviceId, serviceName, testing=True, callback="oob"):
         """
         First call of the Payment oAuth Dance. Provide the Consumer Credential and request the one time Request Token
         (Override of BlueViaOauth fetch_request_token method)
@@ -984,11 +1008,15 @@ class BlueViaPayment(BlueViaOauth):
         @param currency: (string):    Currency, e.g. "EUR", "GBP"
         @param serviceId: (string):   Product identifier provided by our Mobile Payments Partner (sandbox: free choice)
         @param serviceName: (string): Product name as registered at our Mobile Payments Partner (sandbox: free choice)
+        @param testing: (string):   True: tests in Sandbox or Test mode; False: run in Production mode
         @param callback: (string):    The callback URL or "oob". Default: "oob"
 
         @return: (tuple):             (HTTP status, authorization URL). HTTP status == "200" for success
         """
-
+        
+        if testing:
+            print ("Testing mode!")
+            
         assert type(amount) is IntType and amount > 0, "'amount' must be an Integer > 0"
         assert type(currency) is StringType and currency!= "", "'currency' must be a non empty string"
         assert type(serviceId) is StringType and serviceId!= "", "'serviceId' must be a non empty string"
@@ -1016,7 +1044,10 @@ class BlueViaPayment(BlueViaOauth):
                                               extraHeaders={"Content-Type":"application/x-www-form-urlencoded;charset=UTF8"})
         if response["status"] == '200':
             self.request_token = oauth.Token.from_string(content)
-            return int(response["status"]), "%s?oauth_token=%s" % (self.authorization_url, self.request_token.key)
+            if testing:
+                return int(response["status"]), "%s?oauth_token=%s" % (self.test_authorization_url, self.request_token.key)
+            else:
+                return int(response["status"]), "%s?oauth_token=%s" % (self.authorization_url, self.request_token.key)
         else:
             return int(response["status"]), content
 
@@ -1147,4 +1178,3 @@ class BlueViaPayment(BlueViaOauth):
             return int(response["status"]), simplejson.loads(content)
         else:
             return int(response["status"]), content       
-        
