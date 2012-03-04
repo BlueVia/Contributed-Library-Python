@@ -52,7 +52,7 @@ class BlueVia():
     Mainly Stores consumer and access_token, provides the generic _signAndSend(...) a debug() method
  
     Changes since 12.10.2011:
-    - defined test_authorization_url and added test_env param to BlueViaOauth fetch_request_token() method
+    - defined test_authorization_url and added testing param to BlueViaOauth fetch_request_token() method
     - Added a JSON response cleanup to BlueViaUserContext
     
     HOWTO USE
